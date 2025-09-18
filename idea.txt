@@ -1,11 +1,55 @@
 1. Based on a true story...
-2. Kettu väärinpäin sängyssä, "Vittu mikä hedari"
-3. Tutorial, kettu menee vessaan
-4. Putkita kalja, paina pyydettyjä random nappuloita nopeasti
-5. Aja keravalle prismaan alkoon, "Hyi vittu Kerava."
-6. Väistele vartijoita ja osta tai pölli viinaa
+2. Kettu väärinpäin sängyssä, "Vittu mikä hedari", "Bissee..."
+3. Kettu menee keittiöön
+4. Tutorial: Putkita kalja, paina pyydettyjä random nappuloita nopeasti
+        VOITA: Jatka peliä
+        HÄVIÖ: Oksenna "Ai ei bisse maistu, parempi jäädä himaan."          HÄVIÖ
+5. Aja Keravalle Alkoon, "Hyi vittu Kerava."
+        VOITTO: Peli jatkuu
+        HÄVIÖ: "Selvinpäin vielä, pff..."                                   HÄVIÖ
+6. Väistele vartijoita ja pölli viinaa
+        VOITTO: Peli jatkuu
+        HÄVIÖ: "Putkareissu"                                                HÄVIÖ
 7. Aja koloon
+        VOITTO: Peli jatkuu
+        HÄVIÖ: "Selvinpäin vielä, pff..."                                   HÄVIÖ
 8. Kellaritaso etsi tie koloon
-9. Putkita shotteja titaanijuoppoa vastaan
-10. Sammu, GG!
-11.asdasd
+9. Jeejee juhli. (Awesome cutscene)
+10. Kello on 12, mitään hyvää tuskin tapahtuu enää. Lähde kotiin
+11 a. Mene ovesta "Fiksusti tehty, öitä."                               TYLSÄ LOPPU
+11 b. Odota 20s ja peli jatkuu "Jaa ei uni maistu"
+
+Seuraavassa osassa kerätään SEGIStä, SEGIS laskee ajan kanssa.
+SEGIS taso määrittää pisteet, ole siis nopea.
+
+12. Ilta alkaa nyt oikeasti, seikkaile kolossa ja valitse päihteesi tai ne kaikki
+
+13 a: Juo pari kaljaa
+            VOITTO: +SEGIS Mieto kamera shake loppupelin ajan
+            HÄVIÖ:  Oksenna. "Etsä parempaan pysty?"                        HÄVIÖ
+13 b: Juo shotteja titaanijuoppoa vastaan.
+            VOITA: +SEGIS Satunnaiset väärät liikkeet loppupelin ajaksi
+            HÄVIÖ: "Luuseri"                                                HÄVIÖ
+13 c: Juo valkoinen redbull
+            VOITA: +SEGIS Hyper speed boost loppupelin ajaksi
+            HÄVIÖ: "Aa ei sul ollukkaa rahaa redbullii, mee himaas"         HÄVIÖ
+13 d: Syö kettukarkkeja
+            VOITTO: +SEGIS Värit ja kirkkaus vaihtelee loppupelin ajan.
+            HÄVIÖ: Oksenna ja tipahda. "Söit liikaa kettukarkkeja"          HÄVIÖ
+13 e: Syö pääsiäissuklaata
+            VOITTO: +SEGIS Tärise loppupelin ajan
+            HÄVIÖ: Oksenna ja tipahda. "Söit liikaa pääsiäissuklaata"       HÄVIÖ
+13 f: Pekkuenergiaa
+            HÄVIÖ: Porttikielto                                             HÄVIÖ
+14. Käy jääkaapilla ja huomaa et kaikki on juotu.
+    "Kaikki lähtee himaan, pitäskö sunkin?"
+15  a: Tilaa bolt (SEGIS laskee odotellessa)
+15  b: "Kyl mä oon ihan ajokunnossa" Aja sekaisin kotiin
+        VOITTO: "Ehkä me selvitään tästä..."
+        HÄVIÖ: "Ei vittu, ei salee tuu lunarista massei"
+
+    FINAL BOSS. Mitä suurempi SEGIS sitä vaikeampi.
+
+15. Taistele nukkumattia vastaan
+        VOITA: Nuku ja herää pikku darrassa. "Vois olla pahempiki"          VOITIT
+        HÄVIÖ: Valvo yö vainoissa.                                          HÄVIÖ

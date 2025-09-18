@@ -1,4 +1,5 @@
 import pygame
+
 from core.game_state import SceneManager
 from scenes.intro import CutsceneIntro
 
@@ -15,7 +16,7 @@ FPS = 60
 FramePerSec = pygame.time.Clock()
 
 screen = pygame.display.set_mode((SWIDTH, SHEIGHT))
-pygame.display.set_caption("Fox Hole")
+pygame.display.set_caption("Foxhole")
 
 manager = SceneManager()
 manager.set_scene(CutsceneIntro(manager))
