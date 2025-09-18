@@ -4,10 +4,18 @@ import pygame
 pygame.init()
 
 # Set up the display
-screen_width = 800
-screen_height = 600
-screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("The game")
+vec = pygame.math.Vector2
+
+SWIDTH = 800
+SHEIGHT = 600
+ACC = 0.5
+FRIC = -0.12
+FPS = 60
+
+FramePerSec = pygame.time.Clock()
+
+screen = pygame.display.set_mode((SWIDTH, SHEIGHT))
+pygame.display.set_caption("Fox Hole") 
 
 # Main game loop
 running = True
