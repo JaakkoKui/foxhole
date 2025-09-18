@@ -1,6 +1,7 @@
 # scenes/level1.py
 import pygame
 
+
 class Level1:
     def __init__(self, manager):
         self.manager = manager
@@ -18,5 +19,6 @@ class Level1:
 
     def draw(self, screen):
         screen.fill((100, 150, 200))
-        text = self.font.render("Level 1 — Press SPACE to continue", True, (255,255,255))
+        text = self.font.render(
+            "Level 1 — Press SPACE to continue", True, (255, 255, 255))
         screen.blit(text, (50, 200))
