@@ -1,6 +1,7 @@
 import pygame
 
 import core.combat
+import core.segis
 from scenes.intro import CutsceneIntro
 
 
