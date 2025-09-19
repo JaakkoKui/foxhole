@@ -1,3 +1,5 @@
+# Remove the duplicate rendering of the lower line in the talk bubble
+
 import pygame
 
 
@@ -9,7 +11,7 @@ class CutsceneIntro:
         self.text_alpha = 255
         self.text_fade_duration = 1000
         self.text_surface = self.font.render(
-            "Based on a true story...", True, (255, 255, 255)
+            "Perustuu tositapahtumiin...", True, (255, 255, 255)
         )
         self.fox_pos = [360, 580]
         self.fox_direction = 1
@@ -17,7 +19,7 @@ class CutsceneIntro:
         self.fox_state = "silent"  # silent, talking, flipping, walking
 
     def handle_events(self, events):
-        self.fox = pygame.image.load("pictures/fromSide/foxStanding1.png")
+        self.fox = pygame.image.load("pictures/fromSide/foxStanding.png")
         width, height = self.fox.get_size()
         scale_factor = 1.7
         new_size = (int(width * scale_factor), int(height * scale_factor))
@@ -52,18 +54,18 @@ class CutsceneIntro:
             self.text_surface.set_alpha(self.text_alpha)
 
         # Fox state transitions
-        if self.timer < 4000:
+        if self.timer < 5000:
             self.fox_state = "silent"
-        elif self.timer < 7000:
+        elif self.timer < 8000:
             self.fox_state = "talking"
-        elif self.timer < 9000:
+        elif self.timer < 10000:
             self.fox_state = "flipping"
         else:
             self.fox_state = "walking"
 
         # Fox walks forward after flipping
         if self.fox_state == "walking":
-            self.fox_pos[0] += 3  # Move fox to the right
+            self.fox_pos[0] += 5  # Move fox to the right
 
     def draw(self, screen):
         screen.fill((30, 30, 30))
@@ -86,15 +88,15 @@ class CutsceneIntro:
                 screen.blit(flipped_fox, self.fox_pos)
 
                 # Draw talk bubble
-                bubble_width = 300
-                bubble_height = 50
-                bubble_x = self.fox_pos[0] + 90
-                bubble_y = self.fox_pos[1] - 70
+                bubble_width = 650
+                bubble_height = 80
+                bubble_x = 150
+                bubble_y = 150
                 pygame.draw.rect(
                     screen,
-                    (255, 255, 255),
+                    (230, 230, 230),
                     (bubble_x, bubble_y, bubble_width, bubble_height),
-                    border_radius=10,
+                    border_radius=5,
                 )
                 pygame.draw.rect(
                     screen,
@@ -103,14 +105,23 @@ class CutsceneIntro:
                     2,
                     border_radius=10,
                 )
-                talk_surface = self.font.render("Saatana mikä hedari", True, (0, 0, 0))
-                screen.blit(
-                    talk_surface,
-                    (
-                        bubble_x + 10,
-                        bubble_y + (bubble_height - talk_surface.get_height()) // 2,
-                    ),
-                )
+                # Render multiline text
+                lines = [
+                    "Kettu heräilee uuteen päivään ohimolla",
+                    "vihlovaan hedariin ja lähtee etsimään kaljaa.",
+                ]
+                talk_surfaces = [
+                    self.font.render(line, True, (0, 0, 0)) for line in lines
+                ]
+                for i, talk_surface in enumerate(talk_surfaces):
+                    screen.blit(
+                        talk_surface,
+                        (
+                            bubble_x + 10,
+                            bubble_y + 10 + i * (talk_surface.get_height() + 5),
+                        ),
+                    )
+                # Removed duplicate rendering of the lower line
             elif self.fox_state == "flipping":
                 # Fox flips around (show normal image)
                 screen.blit(self.l_tiredFox, self.fox_pos)
