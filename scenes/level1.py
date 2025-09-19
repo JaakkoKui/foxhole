@@ -16,10 +16,10 @@ class Level1:
         self.background = pygame.transform.scale(
             self.background, pygame.display.get_surface().get_size()
         )
-        self.player_x, self.player_y = 50, 500
+        self.player_x, self.player_y = 150, 500
         self.player_speed = 5
-        self.floor_start = (0, 680)  # Start of slanted floor (up left)
-        self.floor_end = (1000, 770)  # End of slanted floor (down right)
+        self.floor_start = (0, 710)  # Start of slanted floor (up left)
+        self.floor_end = (1000, 780)  # End of slanted floor (down right)
 
         # Gravity setup
         self.gravity = 0.5  # Acceleration due to gravity
