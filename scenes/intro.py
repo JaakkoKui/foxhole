@@ -41,8 +41,8 @@ class CutsceneIntro:
 
     def update(self, dt):
         self.timer += dt
-        # After 15 seconds go to Level1 automatically
-        if self.timer > 15000:
+        # After 13.5 seconds go to Level1 automatically
+        if self.timer > 13500:
             from scenes.level1 import Level1
 
             self.manager.set_scene(Level1(self.manager))
@@ -58,7 +58,7 @@ class CutsceneIntro:
             self.fox_state = "silent"
         elif self.timer < 8000:
             self.fox_state = "talking"
-        elif self.timer < 10000:
+        elif self.timer < 9000:
             self.fox_state = "flipping"
         else:
             self.fox_state = "walking"

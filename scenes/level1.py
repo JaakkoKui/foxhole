@@ -1,6 +1,7 @@
 import pygame
 
 import core.combat
+from scenes.intro import CutsceneIntro
 
 
 class Level1:
@@ -33,7 +34,7 @@ class Level1:
         self.is_jumping = False
         self.clock = pygame.time.Clock()
         self.facing_right = True
-        self.show_drink_prompt = False  # Only show when at fridge
+        self.show_drink_prompt = False
         self.did_drink = False
         self.fox_did_drink = pygame.image.load(
             "pictures/fromSide/foxDidDrink.png"
@@ -43,8 +44,6 @@ class Level1:
         for e in events:
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_SPACE:
-                    from scenes.intro import CutsceneIntro
-
                     self.manager.set_scene(CutsceneIntro(self.manager))
                 elif e.key == pygame.K_UP and not self.is_jumping:
                     self.velocity_y = self.jump_strength
@@ -52,19 +51,55 @@ class Level1:
                 elif e.key == pygame.K_g and self.show_drink_prompt:
 
                     def combat_callback(result):
+
                         if result == "win":
                             self.did_drink = False
                             self.player_image = self.fox_standing
+                            combat_scene.return_scene = self
+
                         else:
                             self.did_drink = True
                             self.player_image = self.fox_did_drink
+                            self.player_speed = 0
+                            fade_surface = pygame.Surface(self.background.get_size())
+                            fade_surface.fill((0, 0, 0))
+                            screen = pygame.display.get_surface()
+                            fox_image = pygame.transform.scale(
+                                self.player_image, (self.frame_width, self.frame_height)
+                            )
+                            fox_x = (screen.get_width() - self.frame_width) // 2
+                            fox_y = (screen.get_height() - self.frame_height) // 1.5
+                            for alpha in range(0, 256, 10):
+                                screen.blit(self.background, (0, 0))
+                                fade_surface.set_alpha(alpha)
+                                screen.blit(fade_surface, (0, 0))
+                                pygame.display.flip()
+                                pygame.time.delay(50)
+                            screen.fill((0, 0, 0))
+                            screen.blit(fox_image, (fox_x, fox_y))
+                            prompt_text = self.font.render(
+                                "Ei bisse maistu, huomenna uus yritys.",
+                                True,
+                                (200, 200, 200),
+                            )
+                            screen.blit(
+                                prompt_text,
+                                (
+                                    (screen.get_width()) // 4,
+                                    (screen.get_height()) // 3.5,
+                                ),
+                            )
+                            pygame.display.flip()
+                            pygame.time.delay(3500)
+                            # Transition to the intro cutscene after drinking
+                            self.manager.set_scene(CutsceneIntro(self.manager))
 
                     combat_scene = core.combat.Combat(
                         self.font,
                         prompt_time=2000,
                         rounds=4,
                         on_end=combat_callback,
-                        return_scene=self,
+                        return_scene=None,
                     )
                     combat_scene.start()
                     combat_scene.manager = self.manager
@@ -155,8 +190,8 @@ class Level1:
             pygame.draw.rect(screen, (0, 0, 0), prompt_rect, 2, border_radius=10)
             prompt_text = self.font.render("Juo bisse, paina G", True, (0, 0, 0))
             screen.blit(prompt_text, (prompt_rect.x + 20, prompt_rect.y + 20))
-        min_scale = 0.7
-        max_scale = 2.0
+        min_scale = 0.5
+        max_scale = 1.8
         screen_width = screen.get_width()
         scale_factor = min_scale + (max_scale - min_scale) * (
             self.player_x / max(screen_width, 1)
