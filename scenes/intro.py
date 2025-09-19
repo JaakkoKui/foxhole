@@ -42,7 +42,7 @@ class CutsceneIntro:
     def update(self, dt):
         self.timer += dt
         # After 13.5 seconds go to Level1 automatically
-        if self.timer > 13500:
+        if self.timer > 12000:
             from scenes.level1 import Level1
 
             self.manager.set_scene(Level1(self.manager))
@@ -54,11 +54,11 @@ class CutsceneIntro:
             self.text_surface.set_alpha(self.text_alpha)
 
         # Fox state transitions
-        if self.timer < 5000:
+        if self.timer < 3000:
             self.fox_state = "silent"
-        elif self.timer < 8000:
+        elif self.timer < 6500:
             self.fox_state = "talking"
-        elif self.timer < 9000:
+        elif self.timer < 8000:
             self.fox_state = "flipping"
         else:
             self.fox_state = "walking"
@@ -130,9 +130,9 @@ class CutsceneIntro:
                 screen.blit(self.l_frownFox, self.fox_pos)
 
                 # Draw moving talk bubble
-                bubble_width = 200
+                bubble_width = 150
                 bubble_height = 40
-                bubble_x = self.fox_pos[0] + 90
+                bubble_x = self.fox_pos[0] + 140
                 bubble_y = self.fox_pos[1] - 70
                 pygame.draw.rect(
                     screen,
@@ -151,7 +151,7 @@ class CutsceneIntro:
                 screen.blit(
                     talk_surface,
                     (
-                        bubble_x + 10,
+                        bubble_x + 20,
                         bubble_y + (bubble_height - talk_surface.get_height()) // 2,
                     ),
                 )

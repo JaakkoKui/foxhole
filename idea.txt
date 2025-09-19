@@ -3,7 +3,7 @@
 3. Kettu menee keittiöön
 4. Tutorial: Putkita kalja, paina pyydettyjä random nappuloita nopeasti
         VOITA: Jatka peliä
-        HÄVIÖ: Oksenna "Ai ei bisse maistu, parempi jäädä himaan."          HÄVIÖ
+        HÄVIÖ: Oksenna "Ei bisse maistu, huomenna uus yritys." *Oksennus*   HÄVIÖ
 5. Aja Keravalle Alkoon, "Hyi vittu Kerava."
         VOITTO: Peli jatkuu
         HÄVIÖ: "Selvinpäin vielä, pff..."                                   HÄVIÖ
@@ -21,6 +21,7 @@
 
 Seuraavassa osassa kerätään SEGIStä, SEGIS laskee ajan kanssa.
 SEGIS taso määrittää pisteet, ole siis nopea.
+Kaikkea ei pysty suorittamaan ilman riittävää SEGIS tasoa
 
 12. Ilta alkaa nyt oikeasti, seikkaile kolossa ja valitse päihteesi tai ne kaikki
 
@@ -46,7 +47,7 @@ SEGIS taso määrittää pisteet, ole siis nopea.
 15  a: Tilaa bolt (SEGIS laskee odotellessa)
 15  b: "Kyl mä oon ihan ajokunnossa" Aja sekaisin kotiin
         VOITTO: "Ehkä me selvitään tästä..."
-        HÄVIÖ: "Ei vittu, ei salee tuu lunarista massei"
+        HÄVIÖ:  "Ei salee tuu lunarista massei"  *Ambulanssi*               HÄIVÖ
 
     FINAL BOSS. Mitä suurempi SEGIS sitä vaikeampi.
 
