@@ -1,4 +1,5 @@
 import pygame
+
 import core.combat
 from core.segis import segis
 from scenes.intro import CutsceneIntro
@@ -201,7 +202,9 @@ class Level1:
             if self.wins < 3:
                 prompt_text = self.font.render(" Juo bisse. Paina G", True, (0, 0, 0))
             else:
-                prompt_text = self.font.render("Pitää hakee lisää bissee", True, (0, 0, 0))
+                prompt_text = self.font.render(
+                    "Pitää hakee lisää bissee", True, (0, 0, 0)
+                )
             screen.blit(prompt_text, (prompt_rect.x + 20, prompt_rect.y + 20))
         min_scale = 0.5
         max_scale = 1.8
