@@ -1,7 +1,6 @@
 import pygame
-
 import core.combat
-import core.segis
+from core.segis import segis
 from scenes.intro import CutsceneIntro
 
 
@@ -23,11 +22,11 @@ class Level1:
         self.background = pygame.transform.scale(
             self.background, pygame.display.get_surface().get_size()
         )
-        self.player_x, self.player_y = 150, 700
+        self.player_x, self.player_y = 160, 700
         self.player_speed = 5
         self.floor_start = (0, 710)
         self.floor_end = (1000, 780)
-        self.block_x, self.block_y = 120, 0
+        self.block_x, self.block_y = 140, 0
         self.block_width, self.block_height = 5, 800
         self.gravity = 0.5
         self.velocity_y = 0
@@ -36,6 +35,7 @@ class Level1:
         self.clock = pygame.time.Clock()
         self.facing_right = True
         self.show_drink_prompt = False
+        self.wins = 0
         self.did_drink = False
         self.fox_did_drink = pygame.image.load(
             "pictures/fromSide/foxDidDrink.png"
@@ -57,7 +57,9 @@ class Level1:
                             self.did_drink = False
                             self.player_image = self.fox_standing
                             combat_scene.return_scene = self
-
+                            segis.add(5)
+                            self.wins += 1
+                            print(f"Wins: {self.wins}")
                         else:
                             self.did_drink = True
                             self.player_image = self.fox_did_drink
@@ -91,6 +93,7 @@ class Level1:
                                 ),
                             )
                             pygame.display.flip()
+                            segis.reset()
                             pygame.time.delay(3500)
                             # Transition to the intro cutscene after drinking
                             self.manager.set_scene(CutsceneIntro(self.manager))
@@ -98,7 +101,7 @@ class Level1:
                     combat_scene = core.combat.Combat(
                         self.font,
                         prompt_time=2000,
-                        rounds=4,
+                        rounds=1,
                         on_end=combat_callback,
                         return_scene=None,
                     )
@@ -109,6 +112,7 @@ class Level1:
 
     def update(self, dt):
         # Reset drink state if moving after drinking
+        segis.update(dt)  # Decay segis over time
         if self.did_drink and (
             pygame.key.get_pressed()[pygame.K_LEFT]
             or pygame.key.get_pressed()[pygame.K_RIGHT]
@@ -171,6 +175,10 @@ class Level1:
 
     def draw(self, screen):
         screen.blit(self.background, (0, 0))
+        # Draw segis text and score at top left
+        segis_value = segis.get()
+        segis_text = self.font.render(f"Segis: {segis_value}", True, (225, 225, 30))
+        screen.blit(segis_text, (15, 15))
         if self.did_drink:
             player_image = self.fox_did_drink
             self.player_speed = 3
@@ -186,10 +194,14 @@ class Level1:
                 player_image = self.player_image
         # Draw drink prompt rectangle if needed
         if self.show_drink_prompt:
-            prompt_rect = pygame.Rect(350, 100, 300, 60)
+            prompt_rect = pygame.Rect(350, 150, 350, 60)
             pygame.draw.rect(screen, (230, 230, 230), prompt_rect, border_radius=10)
             pygame.draw.rect(screen, (0, 0, 0), prompt_rect, 2, border_radius=10)
-            prompt_text = self.font.render("Juo bisse, paina G", True, (0, 0, 0))
+            # Update prompt text based on wins
+            if self.wins < 3:
+                prompt_text = self.font.render(" Juo bisse. Paina G", True, (0, 0, 0))
+            else:
+                prompt_text = self.font.render("Pitää hakee lisää bissee", True, (0, 0, 0))
             screen.blit(prompt_text, (prompt_rect.x + 20, prompt_rect.y + 20))
         min_scale = 0.5
         max_scale = 1.8

@@ -4,7 +4,7 @@ class Segis:
     Points increase on win, decrease over time, and can be imported and used in other modules.
     """
 
-    def __init__(self, initial=20):
+    def __init__(self, initial=0):
         self.value = max(0, min(100, initial))
 
     def add(self, amount):
@@ -21,4 +21,14 @@ class Segis:
         self.subtract(decay_rate * (dt / 1000))
 
     def get(self):
-        return int(self.value)
+        """
+        Returns the current segis value rounded to one decimal place.
+        """
+        return round(float(self.value), 2)
+    
+    def reset(self):
+        self.value = 0
+
+
+# Global segis instance
+segis = Segis()

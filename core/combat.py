@@ -89,7 +89,7 @@ class Combat:
     def draw(self, screen):
         if self.active:
             key_name = pygame.key.name(self.current_key).upper()
-            prompt_rect = pygame.Rect(350, 300, 300, 80)
+            prompt_rect = pygame.Rect(350, 300, 260, 60)
             pygame.draw.rect(screen, (255, 200, 200), prompt_rect, border_radius=10)
             pygame.draw.rect(screen, (0, 0, 0), prompt_rect, 2, border_radius=10)
             prompt_text = self.font.render(
