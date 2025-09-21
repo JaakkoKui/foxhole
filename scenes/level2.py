@@ -1,67 +1,85 @@
 import pygame
 
 from core.segis import segis
-from scenes.intro import CutsceneIntro
 
 
 class Level2:
-    """
-    Level2 scene where the player is pictured from above and can move in all directions.
-    """
-
     def __init__(self, manager):
         self.manager = manager
         self.font = pygame.font.SysFont(None, 40)
-        self.frame_width, self.frame_height = 100, 60
-        self.player_image = pygame.image.load(
+        self.background = pygame.image.load("pictures/backgrounds/yard.png")
+        self.background = pygame.transform.scale(
+            self.background, pygame.display.get_surface().get_size()
+        )
+        self.base_image = pygame.image.load(
             "pictures/fromAbove/foxStraight.png"
         ).convert_alpha()
-        self.background = pygame.image.load("pictures/backgrounds/yard.png")
-        self.player_pos = pygame.Vector2(400, 300)
-        self.player_speed = 5
+        self.player_image = pygame.transform.flip(self.base_image, False, True)
+        self.left_image = pygame.transform.rotate(self.base_image, 90)
+        self.right_image = pygame.transform.rotate(self.base_image, -90)
+        self.up_image = self.base_image
+        self.down_image = pygame.transform.flip(self.base_image, False, True)
+        self.facing_down = True
+        self.facing_right = True
+        self.player_x, self.player_y = 400, 400
+        self.player_speed = 3.5
+        self.frame_width, self.frame_height = 20, 40
 
     def handle_events(self, events):
-        """
-        Handle input events for the scene.
-        """
         for e in events:
-            if e.type == pygame.KEYDOWN:
-                if e.key == pygame.K_SPACE:
-                    self.manager.set_scene(CutsceneIntro(self.manager))
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
+                # Example: go back to Level1
+                from scenes.level1 import Level1
 
-    def update(self):
-        """
-        Update the player position based on keyboard input.
-        """
+                self.manager.set_scene(Level1(self.manager))
+
+    def update(self, dt):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            self.player_pos.x -= self.player_speed
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            self.player_pos.x += self.player_speed
-        if keys[pygame.K_UP] or keys[pygame.K_w]:
-            self.player_pos.y -= self.player_speed
-        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
-            self.player_pos.y += self.player_speed
+        moving_left = keys[pygame.K_LEFT]
+        moving_right = keys[pygame.K_RIGHT]
+        moving_up = keys[pygame.K_UP]
+        moving_down = keys[pygame.K_DOWN]
 
+        if moving_left:
+            self.player_x -= self.player_speed
+        if moving_right:
+            self.player_x += self.player_speed
+        if moving_up:
+            self.player_y -= self.player_speed
+        if moving_down:
+            self.player_y += self.player_speed
+
+        # Direction logic
+        if moving_up and not moving_left and not moving_right:
+            self.player_image = self.up_image
+        elif moving_down and not moving_left and not moving_right:
+            self.player_image = self.down_image
+        elif moving_left and not moving_up and not moving_down:
+            self.player_image = self.left_image
+        elif moving_right and not moving_up and not moving_down:
+            self.player_image = self.right_image
+        elif moving_up and moving_left:
+            self.player_image = pygame.transform.rotate(self.up_image, 45)
+        elif moving_up and moving_right:
+            self.player_image = pygame.transform.rotate(self.up_image, -45)
+        elif moving_down and moving_left:
+            self.player_image = pygame.transform.rotate(self.down_image, -45)
+        elif moving_down and moving_right:
+            self.player_image = pygame.transform.rotate(self.down_image, 45)
         # Clamp player position to screen bounds
-        self.player_pos.x = max(
-            0, min(self.player_pos.x, self.background.get_width() - self.frame_width)
+        self.player_x = max(
+            0, min(self.player_x, self.background.get_width() - self.frame_width)
         )
-        self.player_pos.y = max(
-            0, min(self.player_pos.y, self.background.get_height() - self.frame_height)
+        self.player_y = max(
+            0, min(self.player_y, self.background.get_height() - self.frame_height)
         )
 
     def draw(self, screen):
-        """
-        Draw the background, segis at the left corner, and player on the screen.
-        """
         screen.blit(self.background, (0, 0))
-        # Draw segis at the top-left corner (0, 0)
-        segis_image = segis.get_image()  # Assuming segis has a get_image() method
-        screen.blit(segis_image, (0, 0))
-        screen.blit(self.player_image, (self.player_pos.x, self.player_pos.y))
-        # Optionally draw some info text
-        info_text = self.font.render(
-            "Level 2: Move with arrow keys or WASD", True, (255, 255, 255)
+        segis_value = segis.get()
+        segis_text = self.font.render(f"Segis: {segis_value}", True, (225, 225, 30))
+        screen.blit(segis_text, (15, 15))
+        scaled_image = pygame.transform.scale(
+            self.player_image, (self.frame_width, self.frame_height)
         )
-        screen.blit(info_text, (20, 20))
+        screen.blit(scaled_image, (self.player_x, self.player_y))

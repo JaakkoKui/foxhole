@@ -6,6 +6,7 @@ from scenes.intro import CutsceneIntro
 
 
 class Level1:
+
     def __init__(self, manager):
         self.manager = manager
         self.font = pygame.font.SysFont(None, 40)
@@ -29,6 +30,8 @@ class Level1:
         self.floor_end = (1000, 780)
         self.block_x, self.block_y = 140, 0
         self.block_width, self.block_height = 5, 800
+        self.end_block_x, self.end_block_y = 900, 710
+        self.end_block_width, self.end_block_height = 40, 70
         self.gravity = 0.5
         self.velocity_y = 0
         self.jump_strength = -10
@@ -112,6 +115,8 @@ class Level1:
                     self.show_drink_prompt = False
 
     def update(self, dt):
+        # ...existing code...
+        # Remove early usage of player_rect, ensure it is defined before use
         # Reset drink state if moving after drinking
         segis.update(dt)  # Decay segis over time
         if self.did_drink and (
@@ -143,7 +148,17 @@ class Level1:
         block_rect = pygame.Rect(
             self.block_x, self.block_y, self.block_width, self.block_height
         )
-        if player_rect.colliderect(block_rect):
+        end_block_rect = pygame.Rect(
+            self.end_block_x,
+            self.end_block_y,
+            self.end_block_width,
+            self.end_block_height,
+        )
+        if player_rect.colliderect(end_block_rect):
+            from scenes.level2 import Level2
+
+            self.manager.set_scene(Level2(self.manager))
+        elif player_rect.colliderect(block_rect):
             # Calculate overlap on each side
             dx_right = block_rect.right - player_rect.left
             dx_left = player_rect.right - block_rect.left
@@ -175,6 +190,16 @@ class Level1:
             self.is_jumping = False
 
     def draw(self, screen):
+        # Draw level end block
+        end_block_rect = pygame.Rect(
+            self.end_block_x,
+            self.end_block_y,
+            self.end_block_width,
+            self.end_block_height,
+        )
+        pygame.draw.rect(screen, (0, 200, 0), end_block_rect)
+        end_text = self.font.render("EXIT", True, (255, 255, 255))
+        screen.blit(end_text, (self.end_block_x + 2, self.end_block_y + 20))
         screen.blit(self.background, (0, 0))
         # Draw segis text and score at top left
         segis_value = segis.get()
