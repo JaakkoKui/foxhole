@@ -22,7 +22,7 @@ class Level2:
         self.facing_down = True
         self.facing_right = True
         self.player_x, self.player_y = 400, 400
-        self.player_speed = 3.5
+        self.player_speed = 2
         self.frame_width, self.frame_height = 20, 40
 
     def handle_events(self, events):
@@ -35,6 +35,32 @@ class Level2:
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
+        moving_left = keys[pygame.K_LEFT]
+        moving_right = keys[pygame.K_RIGHT]
+        moving_up = keys[pygame.K_UP]
+        moving_down = keys[pygame.K_DOWN]
+        # Default speed
+        self.current_speed = self.player_speed
+        self.diagonal = False
+        # Detect diagonal movement
+        if (
+            (moving_up and moving_left)
+            or (moving_up and moving_right)
+            or (moving_down and moving_left)
+            or (moving_down and moving_right)
+        ):
+            self.current_speed = self.player_speed * 0.7
+            self.diagonal = True
+        # Movement
+        if moving_left:
+            self.player_x -= self.current_speed
+        if moving_right:
+            self.player_x += self.current_speed
+        if moving_up:
+            self.player_y -= self.current_speed
+        if moving_down:
+            self.player_y += self.current_speed
+
         moving_left = keys[pygame.K_LEFT]
         moving_right = keys[pygame.K_RIGHT]
         moving_up = keys[pygame.K_UP]
@@ -79,7 +105,27 @@ class Level2:
         segis_value = segis.get()
         segis_text = self.font.render(f"Segis: {segis_value}", True, (225, 225, 30))
         screen.blit(segis_text, (15, 15))
+        # Swap dimensions if facing left or right
+        if (
+            self.player_image == self.left_image
+            or self.player_image == self.right_image
+        ):
+            draw_width, draw_height = self.frame_height, self.frame_width
+        else:
+            draw_width, draw_height = self.frame_width, self.frame_height
+        # Make image 1.5x larger if player_image is angled (rotated)
+        # Check if player_image is a rotated surface (diagonal movement)
+        # We assume diagonal images are created by pygame.transform.rotate and are not equal to up/down/left/right images
+        base_images = [
+            self.up_image,
+            self.down_image,
+            self.left_image,
+            self.right_image,
+        ]
+        if self.player_image not in base_images:
+            draw_width = int(draw_width * 1.5)
+            draw_height = int(draw_height * 1.5)
         scaled_image = pygame.transform.scale(
-            self.player_image, (self.frame_width, self.frame_height)
+            self.player_image, (int(draw_width), int(draw_height))
         )
         screen.blit(scaled_image, (self.player_x, self.player_y))

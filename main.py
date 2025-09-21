@@ -16,7 +16,7 @@ FPS = 60
 FramePerSec = pygame.time.Clock()
 
 screen = pygame.display.set_mode((SWIDTH, SHEIGHT))
-pygame.display.set_caption("Foxhole")
+pygame.display.set_caption("Ketunkolo")
 
 manager = SceneManager()
 manager.set_scene(CutsceneIntro(manager))
