@@ -101,10 +101,18 @@ class Level2:
         )
 
     def draw(self, screen):
-        screen.blit(self.background, (0, 0))
+        # Camera offset so fox stays centered
+        screen_width, screen_height = pygame.display.get_surface().get_size()
+        camera_x = int(self.player_x - screen_width // 2)
+        camera_y = int(self.player_y - screen_height // 2)
+
+        # Draw background offset by camera
+        screen.blit(self.background, (-camera_x, -camera_y))
+
         segis_value = segis.get()
         segis_text = self.font.render(f"Segis: {segis_value}", True, (225, 225, 30))
         screen.blit(segis_text, (15, 15))
+
         # Swap dimensions if facing left or right
         if (
             self.player_image == self.left_image
@@ -114,8 +122,6 @@ class Level2:
         else:
             draw_width, draw_height = self.frame_width, self.frame_height
         # Make image 1.5x larger if player_image is angled (rotated)
-        # Check if player_image is a rotated surface (diagonal movement)
-        # We assume diagonal images are created by pygame.transform.rotate and are not equal to up/down/left/right images
         base_images = [
             self.up_image,
             self.down_image,
@@ -128,4 +134,7 @@ class Level2:
         scaled_image = pygame.transform.scale(
             self.player_image, (int(draw_width), int(draw_height))
         )
-        screen.blit(scaled_image, (self.player_x, self.player_y))
+        # Draw fox at center of screen
+        fox_draw_x = screen_width // 2
+        fox_draw_y = screen_height // 2
+        screen.blit(scaled_image, (fox_draw_x, fox_draw_y))
