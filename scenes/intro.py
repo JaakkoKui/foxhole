@@ -67,7 +67,7 @@ class CutsceneIntro:
         if self.fox_state == "walking":
             self.fox_pos[0] += 5  # Move fox to the right
 
-    def draw(self, screen):
+    def draw(self, screen, dt):
         screen.fill((30, 30, 30))
         if self.text_alpha > 0:
             text_surface = self.text_surface.copy()

@@ -21,6 +21,7 @@ pygame.display.set_caption("Ketunkolo")
 manager = SceneManager()
 manager.set_scene(CutsceneIntro(manager))
 
+
 running = True
 
 while running:
@@ -31,7 +32,7 @@ while running:
             running = False
     manager.handle_events(events)
     manager.update(dt)
-    manager.draw(screen)
+    manager.draw(screen, dt)
     pygame.display.flip()
 
 pygame.quit()
