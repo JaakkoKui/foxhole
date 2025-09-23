@@ -1,6 +1,7 @@
 import pygame
 
 from core.segis import segis
+from core.storytelling import StoryTeller
 
 
 class Level2:
@@ -10,22 +11,32 @@ class Level2:
     """
 
     def __init__(self, manager):
+        self.segis_color_phase = 0.0
         """
         Initialize Level2 with zoomed background, mask, and player sprite.
         """
+
+        self.storyteller = StoryTeller(
+            "Ulos päästyään kettu tajusi ettei muista mihin on jättänyt autonsa..."
+        )
         self.manager = manager
         self.font = pygame.font.SysFont(None, 40)
-        self.zoom = 2.1  # Zoom factor for background
+        self.zoom = 2.3  # Zoom factor for background
 
         # Load and zoom background image
         original_bg = pygame.image.load("pictures/backgrounds/yard2.png")
         screen_size = pygame.display.get_surface().get_size()
         zoomed_size = (int(screen_size[0] * self.zoom), int(screen_size[1] * self.zoom))
         self.background = pygame.transform.scale(original_bg, zoomed_size)
-
         # Load and zoom mask image (white = walkable, black = blocked)
         original_bg_mask = pygame.image.load("pictures/backgrounds/yard2_mask.png")
         self.mask_image = pygame.transform.scale(original_bg_mask, zoomed_size)
+        # Load car image
+        self.big_car = pygame.image.load("pictures/car/car_yard.png").convert_alpha()
+        self.car = pygame.transform.scale(
+            self.big_car,
+            (self.big_car.get_width() // 3, self.big_car.get_height() // 3),
+        )
 
         # Load player images
         self.base_image = pygame.image.load(
@@ -38,10 +49,13 @@ class Level2:
         self.down_image = pygame.transform.flip(self.base_image, False, True)
         self.facing_down = True
         self.facing_right = True
-        self.player_x, self.player_y = 250, 500  # or another value you know is walkable
-        self.player_speed = 1.8
+        self.player_x, self.player_y = 400, 500  # or another value you know is walkable
+        self.player_speed = 1.7
         self.frame_width, self.frame_height = 30, 50
+
         print("Mask at start:", self.is_walkable(self.player_x, self.player_y))
+
+        # Storytelling handled by self.storyteller
 
     def is_walkable(self, x, y):
         """
@@ -64,13 +78,13 @@ class Level2:
                 self.manager.set_scene(Level1(self.manager))
 
     def update(self, dt):
-<<<<<<< HEAD
+        if self.storyteller:
+            self.storyteller.update(dt)
+        segis_value = segis.get()
+        speed = 0.000005 * segis_value  # much slower, tune as needed
+        self.segis_color_phase += speed * dt
         segis.update(dt)  # Decay segis over time
-=======
-        """
-        Update fox position based on keyboard input and mask.
-        """
->>>>>>> d9e1a3257a13eebc564acd1a9755e2eb9d06223e
+        # Movement logic
         keys = pygame.key.get_pressed()
         dx, dy = 0, 0
         if keys[pygame.K_LEFT]:
@@ -81,23 +95,26 @@ class Level2:
             dy -= self.player_speed
         if keys[pygame.K_DOWN]:
             dy += self.player_speed
-
         # Calculate intended new position in background coordinates
         new_x = self.player_x + dx
         new_y = self.player_y + dy
-
         # Only move if mask allows (use zoomed coordinates for mask)
         if self.is_walkable(new_x, new_y):
             self.player_x = new_x
             self.player_y = new_y
-        print("Mask at new position:", self.is_walkable(new_x, new_y))
+        # Clamp player position to background bounds (not screen bounds)
+        bg_width = self.background.get_width() / self.zoom
+        bg_height = self.background.get_height() / self.zoom
+        self.player_x = max(0, min(self.player_x, bg_width - self.frame_width))
+        self.player_y = max(0, min(self.player_y, bg_height - self.frame_height))
+        # ...existing movement and mask logic...
 
         # Clamp player position to background bounds (not screen bounds)
         bg_width = self.background.get_width() / self.zoom
         bg_height = self.background.get_height() / self.zoom
         self.player_x = max(0, min(self.player_x, bg_width - self.frame_width))
         self.player_y = max(0, min(self.player_y, bg_height - self.frame_height))
-
+        keys = pygame.key.get_pressed()
         # Direction logic
         if keys[pygame.K_UP] and not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
             self.player_image = self.up_image
@@ -129,9 +146,19 @@ class Level2:
 
         # Draw zoomed background offset by camera
         screen.blit(self.background, (-camera_x, -camera_y))
+        # Draw car in middle and near top of background
+        bg_width = self.background.get_width()
+        bg_height = self.background.get_height()
+        car_rect = self.car.get_rect()
+        car_x = bg_width // 1.9 - car_rect.width // 2
+        car_y = int(bg_height * 0.1)  # 10% from top
+        screen.blit(self.car, (car_x - camera_x, car_y - camera_y))
 
         segis_value = segis.get()
-        segis_text = self.font.render(f"Segis: {segis_value}", True, (225, 225, 30))
+        from core.segis import get_rainbow_color
+
+        color = get_rainbow_color(self.segis_color_phase)
+        segis_text = self.font.render(f"Segis: {segis_value}", True, color)
         screen.blit(segis_text, (15, 15))
 
         # Swap dimensions if facing left or right
@@ -142,11 +169,8 @@ class Level2:
             draw_width, draw_height = self.frame_height, self.frame_width
         else:
             draw_width, draw_height = self.frame_width, self.frame_height
-<<<<<<< HEAD
 
-=======
         # Make image 1.4x larger if player_image is angled (rotated)
->>>>>>> d9e1a3257a13eebc564acd1a9755e2eb9d06223e
         base_images = [
             self.up_image,
             self.down_image,
@@ -163,3 +187,52 @@ class Level2:
         fox_draw_x = screen_width // 2
         fox_draw_y = screen_height // 2
         screen.blit(scaled_image, (fox_draw_x, fox_draw_y))
+        self.storyteller.draw(screen)
+
+        # Draw speech bubble next to fox
+        bubble_font = pygame.font.SysFont(None, 28)
+        bubble_text = "Voi vittu."
+        bubble_render = bubble_font.render(bubble_text, True, (30, 30, 30))
+        bubble_w, bubble_h = bubble_render.get_size()
+        bubble_pad = 12
+        bubble_x = fox_draw_x + draw_width + 18
+        bubble_y = fox_draw_y - bubble_h // 2
+        pygame.draw.ellipse(
+            screen,
+            (255, 255, 255),
+            (bubble_x, bubble_y, bubble_w + bubble_pad, bubble_h + bubble_pad),
+        )
+        pygame.draw.ellipse(
+            screen,
+            (60, 60, 60),
+            (bubble_x, bubble_y, bubble_w + bubble_pad, bubble_h + bubble_pad),
+            2,
+        )
+        screen.blit(
+            bubble_render, (bubble_x + bubble_pad // 2, bubble_y + bubble_pad // 2)
+        )
+
+        # Storyteller handles textbox rendering
+
+        # Draw speech bubble next to fox
+        bubble_font = pygame.font.SysFont(None, 28)
+        bubble_text = "Voi vittu."
+        bubble_render = bubble_font.render(bubble_text, True, (30, 30, 30))
+        bubble_w, bubble_h = bubble_render.get_size()
+        bubble_pad = 12
+        bubble_x = fox_draw_x + draw_width + 18
+        bubble_y = fox_draw_y - bubble_h // 2
+        pygame.draw.ellipse(
+            screen,
+            (255, 255, 255),
+            (bubble_x, bubble_y, bubble_w + bubble_pad, bubble_h + bubble_pad),
+        )
+        pygame.draw.ellipse(
+            screen,
+            (60, 60, 60),
+            (bubble_x, bubble_y, bubble_w + bubble_pad, bubble_h + bubble_pad),
+            2,
+        )
+        screen.blit(
+            bubble_render, (bubble_x + bubble_pad // 2, bubble_y + bubble_pad // 2)
+        )

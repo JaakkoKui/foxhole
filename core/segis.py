@@ -1,8 +1,13 @@
+import colorsys
+
+
+def get_rainbow_color(phase):
+    """Return an (r, g, b) tuple for a given phase [0,1) in the rainbow."""
+    r, g, b = [int(x * 255) for x in colorsys.hsv_to_rgb(phase, 1, 1)]
+    return (r, g, b)
+
+
 class Segis:
-    """
-    Segis is a points system for the game, ranging from 0 to 100.
-    Points increase on win, decrease over time, and can be imported and used in other modules.
-    """
 
     def __init__(self, initial=0):
         self.value = max(0, min(100, initial))
@@ -25,7 +30,7 @@ class Segis:
         Returns the current segis value rounded to one decimal place.
         """
         return round(float(self.value), 2)
-    
+
     def reset(self):
         self.value = 0
 

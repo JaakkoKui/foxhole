@@ -8,6 +8,9 @@ from scenes.intro import CutsceneIntro
 class Level1:
 
     def __init__(self, manager):
+        self.segis_color_phase = 0.0
+        if self.segis_color_phase > 1.0:
+            self.segis_color_phase -= 1.0
         self.manager = manager
         self.font = pygame.font.SysFont(None, 40)
         self.frame_width, self.frame_height = 200, 140
@@ -118,6 +121,9 @@ class Level1:
         # ...existing code...
         # Remove early usage of player_rect, ensure it is defined before use
         # Reset drink state if moving after drinking
+        segis_value = segis.get()
+        speed = 0.000005 * segis_value  # much slower, tune as needed
+        self.segis_color_phase += speed * dt
         segis.update(dt)  # Decay segis over time
         if self.did_drink and (
             pygame.key.get_pressed()[pygame.K_LEFT]
@@ -126,7 +132,11 @@ class Level1:
             self.did_drink = False
         fridge_x_min = 450
         fridge_x_max = 550
-        if fridge_x_min <= self.player_x <= fridge_x_max and not self.did_drink:
+        if (
+            fridge_x_min <= self.player_x <= fridge_x_max
+            and not self.did_drink
+            and self.facing_right
+        ):
             self.show_drink_prompt = True
         else:
             self.show_drink_prompt = False
@@ -198,12 +208,13 @@ class Level1:
             self.end_block_height,
         )
         pygame.draw.rect(screen, (0, 200, 0), end_block_rect)
-        end_text = self.font.render("EXIT", True, (255, 255, 255))
-        screen.blit(end_text, (self.end_block_x + 2, self.end_block_y + 20))
         screen.blit(self.background, (0, 0))
         # Draw segis text and score at top left
         segis_value = segis.get()
-        segis_text = self.font.render(f"Segis: {segis_value}", True, (225, 225, 30))
+        from core.segis import get_rainbow_color
+
+        color = get_rainbow_color(self.segis_color_phase)
+        segis_text = self.font.render(f"Segis: {segis_value}", True, color)
         screen.blit(segis_text, (15, 15))
         if self.did_drink:
             player_image = self.fox_did_drink
@@ -231,8 +242,8 @@ class Level1:
                     "Pitää hakee lisää bissee", True, (0, 0, 0)
                 )
             screen.blit(prompt_text, (prompt_rect.x + 20, prompt_rect.y + 20))
-        min_scale = 0.5
-        max_scale = 1.8
+        min_scale = 0.6
+        max_scale = 1.6
         screen_width = screen.get_width()
         scale_factor = min_scale + (max_scale - min_scale) * (
             self.player_x / max(screen_width, 1)

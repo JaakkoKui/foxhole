@@ -86,7 +86,7 @@ class Combat:
                 if self.return_scene and self.manager:
                     self.manager.set_scene(self.return_scene)
 
-    def draw(self, screen):
+    def draw(self, screen, dt):
         if self.active:
             key_name = pygame.key.name(self.current_key).upper()
             prompt_rect = pygame.Rect(350, 300, 260, 60)
