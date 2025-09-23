@@ -45,6 +45,7 @@ class Level2:
                 self.manager.set_scene(Level1(self.manager))
 
     def update(self, dt):
+        segis.update(dt)  # Decay segis over time
         keys = pygame.key.get_pressed()
         moving_left = keys[pygame.K_LEFT]
         moving_right = keys[pygame.K_RIGHT]
@@ -119,7 +120,7 @@ class Level2:
             draw_width, draw_height = self.frame_height, self.frame_width
         else:
             draw_width, draw_height = self.frame_width, self.frame_height
-        # Make image 1.5x larger if player_image is angled (rotated)
+
         base_images = [
             self.up_image,
             self.down_image,
