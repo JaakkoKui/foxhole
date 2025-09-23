@@ -5,12 +5,13 @@ from core.segis import segis
 
 class Level2:
     """
-    Level2 scene with a zoomed-in yard background and a movable fox player sprite.
+    Level2 scene with a zoomed-in yard background, mask for walkable areas,
+    and a movable fox player sprite.
     """
 
     def __init__(self, manager):
         """
-        Initialize Level2 with zoomed background and player sprite.
+        Initialize Level2 with zoomed background, mask, and player sprite.
         """
         self.manager = manager
         self.font = pygame.font.SysFont(None, 40)
@@ -21,6 +22,10 @@ class Level2:
         screen_size = pygame.display.get_surface().get_size()
         zoomed_size = (int(screen_size[0] * self.zoom), int(screen_size[1] * self.zoom))
         self.background = pygame.transform.scale(original_bg, zoomed_size)
+
+        # Load and zoom mask image (white = walkable, black = blocked)
+        original_bg_mask = pygame.image.load("pictures/backgrounds/yard2_mask.png")
+        self.mask_image = pygame.transform.scale(original_bg_mask, zoomed_size)
 
         # Load player images
         self.base_image = pygame.image.load(
@@ -33,9 +38,23 @@ class Level2:
         self.down_image = pygame.transform.flip(self.base_image, False, True)
         self.facing_down = True
         self.facing_right = True
-        self.player_x, self.player_y = 400, 400
+        self.player_x, self.player_y = 250, 500  # or another value you know is walkable
         self.player_speed = 1.8
         self.frame_width, self.frame_height = 30, 50
+        print("Mask at start:", self.is_walkable(self.player_x, self.player_y))
+
+    def is_walkable(self, x, y):
+        """
+        Check if the given (x, y) position is walkable using the mask image.
+        White pixels are walkable, black are blocked.
+        Scales coordinates by zoom factor.
+        """
+        mask_x = int(x * self.zoom)
+        mask_y = int(y * self.zoom)
+        mask_x = max(0, min(mask_x, self.mask_image.get_width() - 1))
+        mask_y = max(0, min(mask_y, self.mask_image.get_height() - 1))
+        color = self.mask_image.get_at((mask_x, mask_y))
+        return color.r > 200 and color.g > 200 and color.b > 200  # white pixel
 
     def handle_events(self, events):
         for e in events:
@@ -45,57 +64,57 @@ class Level2:
                 self.manager.set_scene(Level1(self.manager))
 
     def update(self, dt):
+        """
+        Update fox position based on keyboard input and mask.
+        """
         keys = pygame.key.get_pressed()
-        moving_left = keys[pygame.K_LEFT]
-        moving_right = keys[pygame.K_RIGHT]
-        moving_up = keys[pygame.K_UP]
-        moving_down = keys[pygame.K_DOWN]
-        self.current_speed = self.player_speed
-        self.diagonal = False
-        if (
-            (moving_up and moving_left)
-            or (moving_up and moving_right)
-            or (moving_down and moving_left)
-            or (moving_down and moving_right)
-        ):
-            self.current_speed = self.player_speed * 0.7
-            self.diagonal = True
-        if moving_left:
-            self.player_x -= self.current_speed
-        if moving_right:
-            self.player_x += self.current_speed
-        if moving_up:
-            self.player_y -= self.current_speed
-        if moving_down:
-            self.player_y += self.current_speed
+        dx, dy = 0, 0
+        if keys[pygame.K_LEFT]:
+            dx -= self.player_speed
+        if keys[pygame.K_RIGHT]:
+            dx += self.player_speed
+        if keys[pygame.K_UP]:
+            dy -= self.player_speed
+        if keys[pygame.K_DOWN]:
+            dy += self.player_speed
+
+        # Calculate intended new position in background coordinates
+        new_x = self.player_x + dx
+        new_y = self.player_y + dy
+
+        # Only move if mask allows (use zoomed coordinates for mask)
+        if self.is_walkable(new_x, new_y):
+            self.player_x = new_x
+            self.player_y = new_y
+        print("Mask at new position:", self.is_walkable(new_x, new_y))
+
+        # Clamp player position to background bounds (not screen bounds)
+        bg_width = self.background.get_width() / self.zoom
+        bg_height = self.background.get_height() / self.zoom
+        self.player_x = max(0, min(self.player_x, bg_width - self.frame_width))
+        self.player_y = max(0, min(self.player_y, bg_height - self.frame_height))
 
         # Direction logic
-        if moving_up and not moving_left and not moving_right:
+        if keys[pygame.K_UP] and not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
             self.player_image = self.up_image
-        elif moving_down and not moving_left and not moving_right:
+        elif (
+            keys[pygame.K_DOWN] and not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]
+        ):
             self.player_image = self.down_image
-        elif moving_left and not moving_up and not moving_down:
+        elif keys[pygame.K_LEFT] and not keys[pygame.K_UP] and not keys[pygame.K_DOWN]:
             self.player_image = self.left_image
-        elif moving_right and not moving_up and not moving_down:
+        elif keys[pygame.K_RIGHT] and not keys[pygame.K_UP] and not keys[pygame.K_DOWN]:
             self.player_image = self.right_image
-        elif moving_up and moving_left:
+        elif keys[pygame.K_UP] and keys[pygame.K_LEFT]:
             self.player_image = pygame.transform.rotate(self.up_image, 45)
-        elif moving_up and moving_right:
+        elif keys[pygame.K_UP] and keys[pygame.K_RIGHT]:
             self.player_image = pygame.transform.rotate(self.up_image, -45)
-        elif moving_down and moving_left:
+        elif keys[pygame.K_DOWN] and keys[pygame.K_LEFT]:
             self.player_image = pygame.transform.rotate(self.down_image, -45)
-        elif moving_down and moving_right:
+        elif keys[pygame.K_DOWN] and keys[pygame.K_RIGHT]:
             self.player_image = pygame.transform.rotate(self.down_image, 45)
 
-        # Clamp player position to zoomed background bounds
-        self.player_x = max(
-            0, min(self.player_x, self.background.get_width() - self.frame_width)
-        )
-        self.player_y = max(
-            0, min(self.player_y, self.background.get_height() - self.frame_height)
-        )
-
-    def draw(self, screen):
+    def draw(self, screen, dt):
         """
         Draw the zoomed background and fox sprite centered on the screen.
         """
@@ -119,7 +138,7 @@ class Level2:
             draw_width, draw_height = self.frame_height, self.frame_width
         else:
             draw_width, draw_height = self.frame_width, self.frame_height
-        # Make image 1.5x larger if player_image is angled (rotated)
+        # Make image 1.4x larger if player_image is angled (rotated)
         base_images = [
             self.up_image,
             self.down_image,

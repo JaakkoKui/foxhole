@@ -25,12 +25,12 @@ class Level1:
             self.background, pygame.display.get_surface().get_size()
         )
         self.player_x, self.player_y = 160, 700
-        self.player_speed = 5
+        self.player_speed = 7
         self.floor_start = (0, 710)
         self.floor_end = (1000, 780)
         self.block_x, self.block_y = 140, 0
         self.block_width, self.block_height = 5, 800
-        self.end_block_x, self.end_block_y = 900, 710
+        self.end_block_x, self.end_block_y = 1000, 710
         self.end_block_width, self.end_block_height = 40, 70
         self.gravity = 0.5
         self.velocity_y = 0
@@ -189,7 +189,7 @@ class Level1:
             self.velocity_y = 0
             self.is_jumping = False
 
-    def draw(self, screen):
+    def draw(self, screen, dt):
         # Draw level end block
         end_block_rect = pygame.Rect(
             self.end_block_x,
