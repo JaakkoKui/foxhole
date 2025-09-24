@@ -27,14 +27,17 @@ class Level1:
         self.background = pygame.transform.scale(
             self.background, pygame.display.get_surface().get_size()
         )
-        self.player_x, self.player_y = 160, 700
+        screen = pygame.display.get_surface()
+        self.screen_w = screen.get_width()
+        self.screen_h = screen.get_height()
+        self.player_x, self.player_y = self.screen_w - 0.75 * self.screen_w, 700
         self.player_speed = 7
         self.floor_start = (0, 710)
         self.floor_end = (1000, 780)
-        self.block_x, self.block_y = 140, 0
+        self.block_x, self.block_y = self.screen_w - 0.83 * self.screen_w, 0
         self.block_width, self.block_height = 5, 800
-        self.end_block_x, self.end_block_y = 1000, 710
-        self.end_block_width, self.end_block_height = 40, 70
+        self.end_block_x, self.end_block_y = screen.get_width() + 100, 700
+        self.end_block_width, self.end_block_height = 10, 200
         self.gravity = 0.5
         self.velocity_y = 0
         self.jump_strength = -10
@@ -73,10 +76,11 @@ class Level1:
                             self.player_speed = 0
                             fade_surface = pygame.Surface(self.background.get_size())
                             fade_surface.fill((0, 0, 0))
-                            screen = pygame.display.get_surface()
+
                             fox_image = pygame.transform.scale(
                                 self.player_image, (self.frame_width, self.frame_height)
                             )
+                            screen = pygame.display.get_surface()
                             fox_x = (screen.get_width() - self.frame_width) // 2
                             fox_y = (screen.get_height() - self.frame_height) // 1.5
                             for alpha in range(0, 256, 10):
@@ -130,13 +134,9 @@ class Level1:
             or pygame.key.get_pressed()[pygame.K_RIGHT]
         ):
             self.did_drink = False
-        fridge_x_min = 450
-        fridge_x_max = 550
-        if (
-            fridge_x_min <= self.player_x <= fridge_x_max
-            and not self.did_drink
-            and self.facing_right
-        ):
+        fridge_x_min = self.screen_w - 0.5 * self.screen_w
+        fridge_x_max = self.screen_w - 0.35 * self.screen_w
+        if fridge_x_min <= self.player_x <= fridge_x_max and not self.did_drink:
             self.show_drink_prompt = True
         else:
             self.show_drink_prompt = False
@@ -200,16 +200,7 @@ class Level1:
             self.is_jumping = False
 
     def draw(self, screen, dt):
-        # Draw level end block
-        end_block_rect = pygame.Rect(
-            self.end_block_x,
-            self.end_block_y,
-            self.end_block_width,
-            self.end_block_height,
-        )
-        pygame.draw.rect(screen, (0, 200, 0), end_block_rect)
         screen.blit(self.background, (0, 0))
-        # Draw segis text and score at top left
         segis_value = segis.get()
         from core.segis import get_rainbow_color
 
@@ -241,6 +232,7 @@ class Level1:
                 prompt_text = self.font.render(
                     "Pitää hakee lisää bissee", True, (0, 0, 0)
                 )
+                self.show_drink_prompt = False
             screen.blit(prompt_text, (prompt_rect.x + 20, prompt_rect.y + 20))
         min_scale = 0.6
         max_scale = 1.6
