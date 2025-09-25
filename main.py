@@ -1,3 +1,5 @@
+import asyncio
+
 import pygame
 
 from core.game_state import SceneManager
@@ -16,17 +18,23 @@ screen = pygame.display.set_mode((SWIDTH, SHEIGHT))
 pygame.display.set_caption("Ketunkolo")
 manager = SceneManager()
 manager.set_scene(CutsceneIntro(manager))
-running = True
 
-while running:
-    dt = FramePerSec.tick(60)  # milliseconds since last frame
-    events = pygame.event.get()
-    for e in events:
-        if e.type == pygame.QUIT:
-            running = False
-    manager.handle_events(events)
-    manager.update(dt)
-    manager.draw(screen, dt)
-    pygame.display.flip()
 
-pygame.quit()
+async def main():
+    running = True
+    while running:
+        dt = FramePerSec.tick(60)  # milliseconds since last frame
+        events = pygame.event.get()
+        for e in events:
+            if e.type == pygame.QUIT:
+                running = False
+        manager.handle_events(events)
+        manager.update(dt)
+        manager.draw(screen, dt)
+        pygame.display.flip()
+
+    pygame.quit()
+    await asyncio.sleep(0)
+
+
+asyncio.run(main())
