@@ -1,0 +1,65 @@
+In this game you collect SuperiorEnergyGrantingImportantSubstance - SEGIS level by consuming variety of different magical substances. 
+SEGIS level decreases over time so be fast, and there is things you cant do without proper SEGIS level.
+COMBAT - The Fox manifests right runes in limited time.
+MAZES - Fox walks around and tries to not get caught   
+
+1. This is a true tale of the wizard Fox... 
+2. *LIVING ROOM* "Wizard Fox awakens in his cave with a curse" "After getting up, he figures that some mana potions might help" 
+3. *KITCHEN* "With shaking paws Fox searches his potion cabinet." "Phew, three potions left."
+4. COMBAT tutorial: Chug a potion. "By manifesting right runes the Fox is able to chug the potion."
+        WIN: CONTINUE
+        LOSE: "The Fox is too weakened to finish the potion, he must try again tomorrow."        
+5.*YARD "The Fox still under the debuff, cant remember where he left his trusty carriage, find it."
+        FIND CARRIAGE: CONTINUE
+6. DRIVE to the Alcho "Arriving at filthiest and nastiest of the places, the Ke Rava, the Fox makes his way to the local marketplace" "The Fox goes to get some stronger potions, maybe those help with the curse."
+        WIN: Continue 
+        LOSE: Sadly the aspiring wizard got lost and didn'
+        t make it. Better luck tomorrow"                            
+7. MAZE Dodge the Sec Uritas warriors. “Because the Fox’s coin pouch is momentarily empty, he needs to borrow the potions.” 
+        WIN: CONTINUE
+        LOSE: "You'll rot in the dungeons until tomorrow."                                              
+8. COMBAT "The Fox takes big sip of the mightiest of potions, Rapids Ear"
+        WIN: CONTINUE
+        LOSE: "Maybe the potion was too strong after all. Better go get some sleep."  
+9. DRIVE the carriage to the Hole
+        WIN: CONTINUE
+        LOSE: "Intoxicated by the mighty Rapids Ear the Fox seems to have forgotten how to drive. Tomorrow, thats the day."
+10. MAZE "Arriving to the Klondyke where the wizard clan Headquarters - The Hole resides" "The huge Klondyke is old brick maze and the Fox needs to navigate it to reach the Hole."
+        WIN: CONTINUE
+        LOSE: The Fox didn't figure out the maze in time and passed out. Somehow he still woke up in his cave the next day."
+11. *HOLE* Finally at the Hole, and look! All the other wizards are here already brewing the best of potions" "The Fox drinks the last of Rapids Ear and starts to explore."
+12. OPEN WORLD STARTS. 
+    ALL COMBAT
+        A: "Drink tiny mana potions against the legendary Drunk Titan himself."
+            WIN: +SEGIS "The Titan isnt as powerfull as he used to be, Fox won. But the battle was fierce and he feels wobbly." CANT WALK STRAIGHT FOR THE REST OF THE GAME
+            LOSE: "The Fox lost against Drunk Titan and he cast a "empty stomach through nose" spell on him, after that he left."
+        B: "Some wizards in the back of the Hole are grinding speech and agility potion ingredients" "The Fox sits at the table and starts to help" 
+                WIN: +SEGIS "Fox showed his great alchemy skills and inhaled some of the ready speed and agility potion and got hyperspeed" SPEED x2 FOR THE REST OF THE GAME  
+                LOSE: -SEGIS "Fox accidentally dropped the white powder to the floor and the other wizards got mad and threw him out of the Hole."         
+        C: "In the old cabinet the Fox finds one the rarest of powders, also known as Fox Candy. Fox is ecstatic, this must be consumed instantaneously." 
+                WIN: +SEGIS "Consuming Fox Candy isnt always easy, but the Fox is known to master it. Candy starts tingling in his head and everything seems blurrier and slower" 
+                LOSE: "Somehow the Fox fucked this up, humiliated he left at once."
+        D: "The Fox finds some tranquil wizards summoning smoke spirits with a firepipe." "Curious, he sits down and tries to channel the spell himself."
+                WIN: +SEGIS "Fox manages to invoke a spirit and his eyes turn watery and red as a result" BLURRY VISION FOR REST OF THE GAME
+                LOSE: "The ritual goes horribly wrong and the fox collapses... Only to wake up in his cave the next day."
+        E: "Fox talks with some witches. One of them, his ex Stacy ask if the Fox would like to taste some famous 'Rock From Easter Island'. "After some thinking, the Fox agrees." 
+                WIN: +SEGIS "Fox managed to consume the rock, it wasn't very tasty but the magical properties kick in soon." SHAKE FOR THE REST OF THE GAME  
+                LOSE: "The magical rock got best of the Fox and he starts violently puking and passes out. Someone teleports him back to his cave." 
+        F: "In the darkest corner of the Hole, some shady wizard offers the Fox potion known as "Thumb energy". It is dark magic and forbidden in the Hole"  
+                WIN OR LOSE: "For some reason the Fox tried the forbidden chemical. After the potion started working the Fox cut his hairs and ran outside. He wake up a week later in his cave." 
+        RANDOM EVENT: "One of the Sec Uritas warriors just walks in to the Hole and starts asking questions about the Hole, the Fox must cast a forget spell and make him leave.
+                WIN: CONTINUE
+                LOSE: "You'll rot in the dungeons until tomorrow." 
+13. "At the potion vault the Fox notices that potions are starting to end and the Alcho is closed for the night..." "Wizards and witches are starting to leave the Hole"
+14  "The Fox chooses to leave as well. 'Should he order and ride a lightningBOLT to the cave or ride his trusty carriage"
+    A: "LightningBOLT seems better after so many potions and powders the Fox figures, it takes a while though"
+        CONTINUE -SEGIS 
+    b: DRIVE "No way the Fox would leave his trusty carriage at the Klondyke."
+        WIN: CONTINUE
+        LOSE: "SEGIS Levels this epic make the journey home a bit too challenging and Fox crashes and dies." "But the masters of Hospi Tal casted a resurrect spell on him and the Fox wakes up in his home fortnight later."
+15. COMBAT *LIVING ROOM* "Home cave sweet home cave. But as he lays his head on the pillow, the grand Wizard Nuqq Um Atti appears and challenges the Fox to one final battle of the night."
+        WIN: "The Fox bested the Nuqq Um Atti! He may rest in peace until the next day..."
+        LOSE: "The Fox tried to fight but the Nuqq Um Atti prevailed. The Fox didn't get to shut his eyes for whole night after the traumatizing battle..."  
+
+The game has two highscores: SEGIS LEVEL on finish or the COMPLETION TIME
+    
