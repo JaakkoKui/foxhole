@@ -5,7 +5,7 @@ MAZES - Fox walks around and tries to not get caught
 
 1. This is a true tale of the wizard Fox... 
 2. *LIVING ROOM* "Wizard Fox awakens in his cave with a curse" "After getting up, he figures that some mana potions might help" 
-3. *KITCHEN* "With shaking paws Fox searches his potion cabinet." "Phew, three potions left."
+3. *KITCHEN* "With shaking paws the Fox searches his potion cabinet." "Phew, three potions left."
 4. COMBAT tutorial: Chug a potion. "By manifesting right runes the Fox is able to chug the potion."
         WIN: CONTINUE
         LOSE: "The Fox is too weakened to finish the potion, he must try again tomorrow."        
@@ -13,8 +13,7 @@ MAZES - Fox walks around and tries to not get caught
         FIND CARRIAGE: CONTINUE
 6. DRIVE to the Alcho "Arriving at filthiest and nastiest of the places, the Ke Rava, the Fox makes his way to the local marketplace" "The Fox goes to get some stronger potions, maybe those help with the curse."
         WIN: Continue 
-        LOSE: Sadly the aspiring wizard got lost and didn'
-        t make it. Better luck tomorrow"                            
+        LOSE: Sadly the aspiring wizard got lost and didn't make it. Better luck tomorrow"
 7. MAZE Dodge the Sec Uritas warriors. “Because the Fox’s coin pouch is momentarily empty, he needs to borrow the potions.” 
         WIN: CONTINUE
         LOSE: "You'll rot in the dungeons until tomorrow."                                              
@@ -28,10 +27,10 @@ MAZES - Fox walks around and tries to not get caught
         WIN: CONTINUE
         LOSE: The Fox didn't figure out the maze in time and passed out. Somehow he still woke up in his cave the next day."
 11. *HOLE* Finally at the Hole, and look! All the other wizards are here already brewing the best of potions" "The Fox drinks the last of Rapids Ear and starts to explore."
-12. OPEN WORLD STARTS. 
+12. OPEN WORLD STARTS.
     ALL COMBAT
         A: "Drink tiny mana potions against the legendary Drunk Titan himself."
-            WIN: +SEGIS "The Titan isnt as powerfull as he used to be, Fox won. But the battle was fierce and he feels wobbly." CANT WALK STRAIGHT FOR THE REST OF THE GAME
+            WIN: +SEGIS "The Titan isnt as powerful as he used to be, Fox won. But the battle was fierce and he feels wobbly." CANT WALK STRAIGHT FOR THE REST OF THE GAME
             LOSE: "The Fox lost against Drunk Titan and he cast a "empty stomach through nose" spell on him, after that he left."
         B: "Some wizards in the back of the Hole are grinding speech and agility potion ingredients" "The Fox sits at the table and starts to help" 
                 WIN: +SEGIS "Fox showed his great alchemy skills and inhaled some of the ready speed and agility potion and got hyperspeed" SPEED x2 FOR THE REST OF THE GAME  
@@ -46,13 +45,13 @@ MAZES - Fox walks around and tries to not get caught
                 WIN: +SEGIS "Fox managed to consume the rock, it wasn't very tasty but the magical properties kick in soon." SHAKE FOR THE REST OF THE GAME  
                 LOSE: "The magical rock got best of the Fox and he starts violently puking and passes out. Someone teleports him back to his cave." 
         F: "In the darkest corner of the Hole, some shady wizard offers the Fox potion known as "Thumb energy". It is dark magic and forbidden in the Hole"  
-                WIN OR LOSE: "For some reason the Fox tried the forbidden chemical. After the potion started working the Fox cut his hairs and ran outside. He wake up a week later in his cave." 
+                WIN OR LOSE: "For some reason the Fox tried the forbidden chemical. After the potion started working the Fox cut his fur and ran outside. He wake up a week later in his cave." 
         RANDOM EVENT: "One of the Sec Uritas warriors just walks in to the Hole and starts asking questions about the Hole, the Fox must cast a forget spell and make him leave.
                 WIN: CONTINUE
                 LOSE: "You'll rot in the dungeons until tomorrow." 
 13. "At the potion vault the Fox notices that potions are starting to end and the Alcho is closed for the night..." "Wizards and witches are starting to leave the Hole"
 14  "The Fox chooses to leave as well. 'Should he order and ride a lightningBOLT to the cave or ride his trusty carriage"
-    A: "LightningBOLT seems better after so many potions and powders the Fox figures, it takes a while though"
+    A: "LightningBOLT seems better after so many potions and powders the Fox figures, it takes a while though."
         CONTINUE -SEGIS 
     b: DRIVE "No way the Fox would leave his trusty carriage at the Klondyke."
         WIN: CONTINUE

@@ -45,7 +45,7 @@ class CutsceneIntro:
     def update(self, dt):
         # Start storyteller only when fox flips
         if self.fox_state == "talking" and self.storyteller is None:
-            self.storyteller = StoryTeller("Kettu heräilee ja lähtee etsimään kaljaa.")
+            self.storyteller = StoryTeller("The wizard Fox awakens to the new day...")
         if self.storyteller:
             self.storyteller.update(dt)
         self.timer += dt
@@ -154,7 +154,7 @@ class CutsceneIntro:
                     2,
                     border_radius=10,
                 )
-                talk_surface = self.font.render("Bissee...", True, (20, 20, 20))
+                talk_surface = self.font.render("Potions...", True, (20, 20, 20))
                 screen.blit(
                     talk_surface,
                     (

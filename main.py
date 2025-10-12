@@ -4,11 +4,11 @@ from core.game_state import SceneManager
 from scenes.intro import CutsceneIntro
 
 pygame.init()
-SWIDTH = 1200
-SHEIGHT = 800
+S_WIDTH = 1200
+S_HEIGHT = 800
 FPS = 60
 FramePerSec = pygame.time.Clock()
-screen = pygame.display.set_mode((SWIDTH, SHEIGHT))
+screen = pygame.display.set_mode((S_WIDTH, S_HEIGHT))
 pygame.display.set_caption("Ketunkolo")
 manager = SceneManager()
 manager.set_scene(CutsceneIntro(manager))
